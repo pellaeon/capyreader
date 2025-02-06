@@ -59,10 +59,6 @@ class LoginViewModel(
     }
 
     fun submit(onSuccess: () -> Unit) {
-        if (username.isBlank() || password.isBlank()) {
-            _result = Async.Failure(loginError())
-        }
-
         normalizeURL()
 
         viewModelScope.launchIO {

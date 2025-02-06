@@ -12,6 +12,11 @@ data class ReaderCredentials(
     override val source: Source
 ) : Credentials {
     override suspend fun verify(): Result<Credentials> {
+        if (username.isEmpty() && secret.isEmpty()) {
+            val emptyCredentials = this.copy(secret = "")
+            return Result.success(emptyCredentials)
+        }
+
         try {
             val response = GoogleReader.verifyCredentials(
                 username = username,

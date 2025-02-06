@@ -11,7 +11,14 @@ internal object ReaderOkHttpClient {
         return httpClientBuilder(cachePath = path)
             .addInterceptor(
                 BasicAuthInterceptor {
-                    val secret = preferences.password.get()
+                    val username = preferences.username.get()
+                    val password = preferences.password.get()
+
+                    val secret = if (username.isEmpty() && password.isEmpty()) {
+                        ""
+                    } else {
+                        password
+                    }
 
                     "GoogleLogin auth=${secret}"
                 }
